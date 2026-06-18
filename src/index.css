@@ -162,8 +162,8 @@ h1 .accent { color: var(--ac); }
 .prob-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
 .prob-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; flex-grow: 1; }
 
-.how-wrap { padding: 72px 36px; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.how-inner { max-width: 1350px; margin: 0 auto; }
+.how-wrap { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.how-inner { padding: 72px 36px; max-width: 1350px; margin: 0 auto; }
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 50px; }
 .step { padding-right: 28px; }
 .step:last-child { padding-right: 0; }
@@ -364,7 +364,10 @@ html { scroll-behavior: smooth; }
   /* Requirement 3: Center section heading/intro copy, keep card content left-aligned */
   .section .eyebrow,
   .section .sec-title,
-  .section .sec-sub {
+  .section .sec-sub,
+  .how-inner .eyebrow,
+  .how-inner .sec-title,
+  .how-inner .sec-sub {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -379,6 +382,9 @@ html { scroll-behavior: smooth; }
   }
 
   .how-wrap {
+    padding: 0;
+  }
+  .how-inner {
     padding: 48px 16px;
   }
   .steps {
