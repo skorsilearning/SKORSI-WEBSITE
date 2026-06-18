@@ -67,33 +67,11 @@ function App() {
         body: JSON.stringify(payload)
       });
     } catch (error) {
-      // Log the error but do not block the WhatsApp redirect
       console.error('Error submitting lead to Sheets:', error);
     } finally {
       // Show confirmation screen
       setFormSubmitted(true);
     }
-
-    // Direct redirection to WhatsApp
-    const message = `Hello Skorsi! I would like to book a free trial class. My WhatsApp number is ${trimmedPhone} and my subject & university is ${trimmedSubject}.`;
-    const encodedText = encodeURIComponent(message);
-    const url = `https://wa.me/91XXXXXXXXXX?text=${encodedText}`;
-    window.open(url, '_blank');
-  };
-
-  const openWhatsAppDirect = (event?: React.SyntheticEvent) => {
-    if (event) event.preventDefault();
-
-    const trimmedPhone = phone.trim();
-    const trimmedSubject = subject.trim();
-
-    let message = "Hi Skorsi, I'd like to ask some questions about your classes.";
-    if (trimmedPhone || trimmedSubject) {
-      message += ` My details are: Phone: ${trimmedPhone || 'N/A'}, Subject/University: ${trimmedSubject || 'N/A'}`;
-    }
-    const encodedText = encodeURIComponent(message);
-    const url = `https://wa.me/91XXXXXXXXXX?text=${encodedText}`;
-    window.open(url, '_blank');
   };
 
   const testimonials: Testimonial[] = [
@@ -225,7 +203,7 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Max 8 students per batch</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> University-specific syllabus</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Past year paper walkthroughs</li>
-              <li><i className="ti ti-check" aria-hidden="true"></i> WhatsApp doubt support</li>
+              <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated doubt support</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Recorded access (7 days)</li>
             </ul>
             <div className="price-line">Starting at <strong>₹999</strong> / subject</div>
@@ -240,7 +218,7 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Choose your expert</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Flexible timing, book anytime</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Targeted weak-topic focus</li>
-              <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated WhatsApp support</li>
+              <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated doubt support</li>
             </ul>
             <div className="price-line">Starting at <strong>₹299</strong> / session</div>
             <div style={{ marginTop: '16px' }}><a className="btn-ghost animate-on-scroll" href="#contact-section">Book a session</a></div>
@@ -299,7 +277,7 @@ function App() {
             {formSubmitted ? (
               <div style={{ padding: '40px 20px', textAlign: 'center' }}>
                 <i className="ti ti-circle-check" style={{ fontSize: '48px', color: 'var(--ac)', marginBottom: '16px', display: 'inline-block' }}></i>
-                <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '8px', fontFamily: 'Montserrat', color: 'var(--text-main)' }}>Lead Registered Successfully!</h3>
+                <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '8px', fontFamily: 'Montserrat', color: 'var(--text-main)' }}>Registered Successfully!</h3>
                 <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 24px' }}>
                   Thank you, our team will reach out to you for the next process.
                 </p>
@@ -314,7 +292,7 @@ function App() {
                 <div className="form-row">
                   <input
                     type="text"
-                    placeholder="Your WhatsApp number"
+                    placeholder="Your phone number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
@@ -342,9 +320,8 @@ function App() {
         <p>© 2025 Skorsi. Built for B.Tech students who refuse to give up.</p>
         <div className="footer-links">
           <a href="#">Privacy</a>
-          <a href="#">Terms</a>
+          <a href="#">Official Terms</a>
           <a href="#contact-section">Contact</a>
-          <a href="#" className="animate-on-scroll" onClick={openWhatsAppDirect}>WhatsApp</a>
         </div>
       </footer>
     </div>
