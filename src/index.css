@@ -15,6 +15,7 @@ body {
 /* Font Pairing: Montserrat for Headings, Buttons, Badges, Metrics, and Logos */
 h1, h2, h3, h4, h5, h6,
 .logo,
+.sec-title,
 .btn-primary,
 .btn-ghost,
 .t-btn,
@@ -27,7 +28,7 @@ h1, h2, h3, h4, h5, h6,
   font-family: 'Montserrat', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, .logo {
+h1, h2, h3, h4, h5, h6, .logo, .sec-title, .proof-num {
   color: var(--text-main);
 }
 
@@ -39,7 +40,7 @@ h1, h2, h3, h4, h5, h6, .logo {
   --ac-glow: rgba(255, 107, 53, 0.04);
   --bg: #FFFFFF;
   --bg2: #F2F2F2;
-  --text-main: #1A1A1A;
+  --text-main: #000000;
   --text-muted: #6B7280;
   --text-white: #FFFFFF;
   --border: rgba(0, 0, 0, 0.08);
@@ -241,9 +242,15 @@ h1 .accent { color: var(--ac); }
 .cta-block h2 { font-size: 34px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
 .cta-block > p { font-size: 15px; color: var(--text-muted); margin-bottom: 28px; }
 .form-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
-.form-row input { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 11px 15px; color: var(--text-main); font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; width: 220px; outline: none; }
-.form-row input::placeholder { color: #A1A1A1; }
-.form-row input:focus { border-color: var(--ac); }
+.input-group { display: flex; flex-direction: column; width: 220px; position: relative; }
+.input-group input { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 11px 15px; color: var(--text-main); font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; outline: none; }
+.input-group input::placeholder { color: #A1A1A1; }
+.input-group input:focus { border-color: var(--ac); }
+.input-error { color: #EF4444; font-size: 11px; text-align: left; margin-top: 4px; font-weight: 500; font-family: 'Plus Jakarta Sans', sans-serif; animation: fadeInError 0.2s ease-in-out; }
+@keyframes fadeInError {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .cta-btns .btn-primary { font-size: 15px; padding: 14px 30px; }
 .cta-note { font-size: 11px; color: var(--text-muted); margin-top: 14px; }
@@ -449,7 +456,7 @@ html { scroll-behavior: smooth; }
     gap: 12px;
     width: 100%;
   }
-  .form-row input {
+  .input-group {
     width: 100%;
   }
   .cta-btns {

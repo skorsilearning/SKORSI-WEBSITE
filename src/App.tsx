@@ -13,6 +13,8 @@ interface Testimonial {
 function App() {
   const [phone, setPhone] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
+  const [phoneError, setPhoneError] = useState<string>('');
+  const [subjectError, setSubjectError] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
@@ -38,6 +40,24 @@ function App() {
     };
   }, [formSubmitted]); // Re-run when formSubmitted changes to bind state buttons
 
+  const handlePhoneChange = (value: string) => {
+    if (/\D/.test(value)) {
+      setPhoneError('Only numbers are allowed');
+    } else {
+      setPhoneError('');
+    }
+    setPhone(value.replace(/\D/g, ''));
+  };
+
+  const handleSubjectChange = (value: string) => {
+    if (/[^a-zA-Z\s\-\&\.,]/.test(value)) {
+      setSubjectError('Only text letters are allowed');
+    } else {
+      setSubjectError('');
+    }
+    setSubject(value.replace(/[^a-zA-Z\s\-\&\.,]/g, ''));
+  };
+
   const handleContactFormSubmit = async (event?: React.SyntheticEvent) => {
     if (event) event.preventDefault();
 
@@ -46,6 +66,18 @@ function App() {
 
     if (!trimmedPhone || !trimmedSubject) {
       alert('Please fill out both fields.');
+      return;
+    }
+
+    const phoneRegex = /^\d{10,15}$/;
+    if (!phoneRegex.test(trimmedPhone)) {
+      alert('Please enter a valid phone number (10 to 15 digits).');
+      return;
+    }
+
+    const subjectRegex = /^[a-zA-Z\s\-\&\.,]+$/;
+    if (!subjectRegex.test(trimmedSubject)) {
+      alert('Subject & university field should only contain text characters.');
       return;
     }
 
@@ -281,7 +313,7 @@ function App() {
                 <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 24px' }}>
                   Thank you, our team will reach out to you for the next process.
                 </p>
-                <button className="btn-primary animate-on-scroll" onClick={() => { setPhone(''); setSubject(''); setFormSubmitted(false); }}>
+                 <button className="btn-primary animate-on-scroll" onClick={() => { setPhone(''); setSubject(''); setPhoneError(''); setSubjectError(''); setFormSubmitted(false); }}>
                   Submit Another Inquiry
                 </button>
               </div>
@@ -290,20 +322,26 @@ function App() {
                 <h2>Your exam is closer than you think.<br />Start today.</h2>
                 <p>Book a free 30-minute trial class. No payment needed. Just show up.</p>
                 <div className="form-row">
-                  <input
-                    type="text"
-                    placeholder="Your phone number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Subject &amp; university"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                  />
+                  <div className="input-group">
+                    <input
+                      type="tel"
+                      placeholder="Your phone number"
+                      value={phone}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      required
+                    />
+                    {phoneError && <span className="input-error">{phoneError}</span>}
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      placeholder="Subject &amp; university"
+                      value={subject}
+                      onChange={(e) => handleSubjectChange(e.target.value)}
+                      required
+                    />
+                    {subjectError && <span className="input-error">{subjectError}</span>}
+                  </div>
                 </div>
                 <div className="cta-btns">
                   <a className="btn-primary animate-on-scroll" href="#" onClick={handleContactFormSubmit}>Claim free trial class ↗</a>
