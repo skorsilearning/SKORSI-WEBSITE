@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
+interface Testimonial {
+  id: number;
+  stars: string;
+  text: string;
+  av: string;
+  name: string;
+  role: string;
+  avClass: string;
+}
+
 function App() {
   const [theme, setTheme] = useState<'blue' | 'red'>('blue');
   const [phone, setPhone] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   // Load saved theme on mount
   useEffect(() => {
@@ -12,6 +24,28 @@ function App() {
       setTheme(savedTheme);
     }
   }, []);
+
+  // Intersection Observer for scroll-triggered entrance animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('appear');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+    animatedElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      animatedElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [formSubmitted]); // Re-run when formSubmitted changes to bind state buttons
 
   const toggleTheme = (newTheme: 'blue' | 'red') => {
     setTheme(newTheme);
@@ -49,6 +83,9 @@ function App() {
     } catch (error) {
       // Log the error but do not block the WhatsApp redirect
       console.error('Error submitting lead to Sheets:', error);
+    } finally {
+      // Show confirmation screen
+      setFormSubmitted(true);
     }
 
     // Direct redirection to WhatsApp
@@ -73,15 +110,45 @@ function App() {
     window.open(url, '_blank');
   };
 
+  const testimonials: Testimonial[] = [
+    {
+      id: 1,
+      stars: '★★★★★',
+      text: 'I had 3 backlogs in Maths and DSA. My Skorsi tutor mapped exactly what topics would appear. Cleared all 3 in one shot.',
+      av: 'AK',
+      name: 'Arjun Kumar',
+      role: '3rd Year CS — AKTU',
+      avClass: 'av1'
+    },
+    {
+      id: 2,
+      stars: '★★★★★',
+      text: 'Failed Thermodynamics twice. After 5 sessions on Skorsi I scored 68. The expert knew exactly how the AKTU paper is structured.',
+      av: 'PV',
+      name: 'Priya Verma',
+      role: '4th Year Mech — VIT',
+      avClass: 'av2'
+    },
+    {
+      id: 3,
+      stars: '★★★★★',
+      text: 'The group batch was incredibly affordable and way more useful than any coaching centre. Everyone had the same paper, so focus was perfect.',
+      av: 'RS',
+      name: 'Rohan Singh',
+      role: '2nd Year ECE — JIIT',
+      avClass: 'av3'
+    }
+  ];
+
   return (
     <div className={`theme-${theme}`}>
       <nav>
         <div className="logo">Sk<span>o</span>rsi</div>
-        <ul>
-          <li><a href="#how-it-works">How it works</a></li>
-          <li><a href="#subjects-section">Subjects</a></li>
-          <li><a href="#pricing-section">Pricing</a></li>
-          <li><a href="#testimonials-section">Experts</a></li>
+        <ul className={isMenuOpen ? 'open' : ''}>
+          <li><a href="#how-it-works" onClick={() => setIsMenuOpen(false)}>How it works</a></li>
+          <li><a href="#subjects-section" onClick={() => setIsMenuOpen(false)}>Subjects</a></li>
+          <li><a href="#pricing-section" onClick={() => setIsMenuOpen(false)}>Pricing</a></li>
+          <li><a href="#testimonials-section" onClick={() => setIsMenuOpen(false)}>Experts</a></li>
         </ul>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <div className="theme-toggle">
@@ -98,7 +165,10 @@ function App() {
               Red
             </button>
           </div>
-          <a className="btn-primary" href="#contact-section">Book free class ↗</a>
+          <a className="btn-primary animate-on-scroll" href="#contact-section">Book free class ↗</a>
+          <button className="menu-toggle-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle navigation">
+            <i className={`ti ${isMenuOpen ? 'ti-x' : 'ti-menu-2'}`}></i>
+          </button>
         </div>
       </nav>
 
@@ -108,8 +178,8 @@ function App() {
           <h1>Clear your <span className="accent">backlog.</span><br />Pass your<br />semester.</h1>
           <p className="hero-sub">Online live classes built for B.Tech students — 1:1 or group — with verified subject experts. Stop failing, start graduating.</p>
           <div className="hero-ctas">
-            <a className="btn-primary" href="#contact-section">Book a free trial class ↗</a>
-            <a className="btn-ghost" href="#how-it-works">See how it works</a>
+            <a className="btn-primary animate-on-scroll" href="#contact-section">Book a free trial class ↗</a>
+            <a className="btn-ghost animate-on-scroll" href="#how-it-works">See how it works</a>
           </div>
           <div className="trust-bar">
             <div className="trust-item"><i className="ti ti-check" aria-hidden="true"></i> No long-term contracts</div>
@@ -118,11 +188,12 @@ function App() {
           </div>
         </div>
 
+        {/* Hero Video Player replaced with Static study banner image */}
         <div className="vsl-box">
           <div className="vsl-thumb" onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}>
             <div className="vsl-grid"></div>
-            <div className="vsl-play"><i className="ti ti-player-play" aria-hidden="true"></i></div>
-            <div className="vsl-caption">Watch: How Arjun cleared 3 backlogs in 6 weeks</div>
+            <img src="/online_study_placeholder.png" alt="B.Tech Online Tutoring and Coding Studies" />
+            <div className="vsl-caption">Explore: How Arjun cleared 3 backlogs in 6 weeks</div>
           </div>
           <div className="vsl-info">
             <h3>Why 5,000+ B.Tech students chose Skorsi</h3>
@@ -145,7 +216,7 @@ function App() {
         <div className="proof-item"><div className="proof-num">AKTU · VIT · JIIT</div><div className="proof-label">Universities covered</div></div>
       </div>
 
-      <div className="section">
+      <div className="section" id="problem-section">
         <div className="eyebrow">The real problem</div>
         <div className="sec-title">B.Tech is hard.<br />Bad resources make it worse.</div>
         <div className="sec-sub">Most students fail not because they're not smart — but because they don't have access to the right help at the right time.</div>
@@ -186,7 +257,7 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Recorded access (7 days)</li>
             </ul>
             <div className="price-line">Starting at <strong>₹999</strong> / subject</div>
-            <div style={{ marginTop: '16px' }}><a className="btn-primary" href="#contact-section">Explore batches ↗</a></div>
+            <div style={{ marginTop: '16px' }}><a className="btn-primary animate-on-scroll" href="#contact-section">Explore batches ↗</a></div>
           </div>
           <div className="off-card">
             <div className="off-tag tag-p">1:1 private tutoring</div>
@@ -200,12 +271,12 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated WhatsApp support</li>
             </ul>
             <div className="price-line">Starting at <strong>₹299</strong> / session</div>
-            <div style={{ marginTop: '16px' }}><a className="btn-ghost" href="#contact-section">Book a session</a></div>
+            <div style={{ marginTop: '16px' }}><a className="btn-ghost animate-on-scroll" href="#contact-section">Book a session</a></div>
           </div>
         </div>
       </div>
 
-      <div style={{ padding: '0 36px 72px', maxWidth: '1100px', margin: '0 auto' }} id="subjects-section">
+      <div style={{ padding: '0 36px 72px', maxWidth: '1350px', margin: '0 auto' }} id="subjects-section">
         <div className="eyebrow">Subjects covered</div>
         <div className="sec-title">From first year to final year</div>
         <div className="sec-sub">Expert tutors across CS, Mechanical, Electrical, Civil — every B.Tech semester.</div>
@@ -225,14 +296,27 @@ function App() {
         </div>
       </div>
 
-      <div style={{ background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }} id="testimonials-section">
+      {/* Testimonials Static Grid converted to Infinite Auto-Scroll Carousel */}
+      <div style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }} id="testimonials-section">
         <div className="section">
           <div className="eyebrow">Student stories</div>
           <div className="sec-title">They were stuck.<br />Now they're not.</div>
-          <div className="testi-grid">
-            <div className="testi"><div className="stars">★★★★★</div><q>I had 3 backlogs in Maths and DSA. My Skorsi tutor mapped exactly what topics would appear. Cleared all 3 in one shot.</q><div className="tester"><div className="av av1">AK</div><div><div className="t-name">Arjun Kumar</div><div className="t-role">3rd Year CS — AKTU</div></div></div></div>
-            <div className="testi"><div className="stars">★★★★★</div><q>Failed Thermodynamics twice. After 5 sessions on Skorsi I scored 68. The expert knew exactly how the AKTU paper is structured.</q><div className="tester"><div className="av av2">PV</div><div><div className="t-name">Priya Verma</div><div className="t-role">4th Year Mech — VIT</div></div></div></div>
-            <div className="testi"><div className="stars">★★★★★</div><q>The group batch was incredibly affordable and way more useful than any coaching centre. Everyone had the same paper, so focus was perfect.</q><div className="tester"><div className="av av3">RS</div><div><div className="t-name">Rohan Singh</div><div className="t-role">2nd Year ECE — JIIT</div></div></div></div>
+          <div className="carousel-container">
+            <div className="carousel-track">
+              {[...testimonials, ...testimonials, ...testimonials].map((testi, index) => (
+                <div className="testi" key={`${testi.id}-${index}`}>
+                  <div className="stars">{testi.stars}</div>
+                  <q>{testi.text}</q>
+                  <div className="tester">
+                    <div className={`av ${testi.avClass}`}>{testi.av}</div>
+                    <div>
+                      <div className="t-name">{testi.name}</div>
+                      <div className="t-role">{testi.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -240,29 +324,43 @@ function App() {
       <div style={{ padding: '72px 36px' }} id="contact-section">
         <div className="cta-wrap" style={{ padding: 0 }}>
           <div className="cta-block">
-            <h2>Your exam is closer than you think.<br />Start today.</h2>
-            <p>Book a free 30-minute trial class. No payment needed. Just show up.</p>
-            <div className="form-row">
-              <input
-                type="text"
-                placeholder="Your WhatsApp number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Subject &amp; university"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                required
-              />
-            </div>
-            <div className="cta-btns">
-              <a className="btn-primary" href="#" onClick={handleContactFormSubmit}>Claim free trial class ↗</a>
-              <a className="btn-ghost" href="#" onClick={openWhatsAppDirect}>WhatsApp us</a>
-            </div>
-            <div className="cta-note">No credit card. No obligation. Just results.</div>
+            {formSubmitted ? (
+              <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+                <i className="ti ti-circle-check" style={{ fontSize: '48px', color: 'var(--ac)', marginBottom: '16px', display: 'inline-block' }}></i>
+                <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '8px', fontFamily: 'Montserrat', color: 'var(--text-main)' }}>Lead Registered Successfully!</h3>
+                <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 24px' }}>
+                  Thank you, our team will reach out to you for the next process.
+                </p>
+                <button className="btn-primary animate-on-scroll" onClick={() => { setPhone(''); setSubject(''); setFormSubmitted(false); }}>
+                  Submit Another Inquiry
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2>Your exam is closer than you think.<br />Start today.</h2>
+                <p>Book a free 30-minute trial class. No payment needed. Just show up.</p>
+                <div className="form-row">
+                  <input
+                    type="text"
+                    placeholder="Your WhatsApp number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Subject &amp; university"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="cta-btns">
+                  <a className="btn-primary animate-on-scroll" href="#" onClick={handleContactFormSubmit}>Claim free trial class ↗</a>
+                </div>
+                <div className="cta-note">No credit card. No obligation. Just results.</div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -274,7 +372,7 @@ function App() {
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
           <a href="#contact-section">Contact</a>
-          <a href="#" onClick={openWhatsAppDirect}>WhatsApp</a>
+          <a href="#" className="animate-on-scroll" onClick={openWhatsAppDirect}>WhatsApp</a>
         </div>
       </footer>
     </div>
