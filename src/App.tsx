@@ -11,19 +11,10 @@ interface Testimonial {
 }
 
 function App() {
-  const [theme, setTheme] = useState<'blue' | 'red'>('blue');
   const [phone, setPhone] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-
-  // Load saved theme on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('skorsi-theme');
-    if (savedTheme === 'blue' || savedTheme === 'red') {
-      setTheme(savedTheme);
-    }
-  }, []);
 
   // Intersection Observer for scroll-triggered entrance animations
   useEffect(() => {
@@ -46,11 +37,6 @@ function App() {
       animatedElements.forEach((el) => observer.unobserve(el));
     };
   }, [formSubmitted]); // Re-run when formSubmitted changes to bind state buttons
-
-  const toggleTheme = (newTheme: 'blue' | 'red') => {
-    setTheme(newTheme);
-    localStorage.setItem('skorsi-theme', newTheme);
-  };
 
   const handleContactFormSubmit = async (event?: React.SyntheticEvent) => {
     if (event) event.preventDefault();
@@ -141,7 +127,7 @@ function App() {
   ];
 
   return (
-    <div className={`theme-${theme}`}>
+    <div className="app-container">
       <nav>
         <div className="logo">Sk<span>o</span>rsi</div>
         <ul className={isMenuOpen ? 'open' : ''}>
@@ -151,20 +137,6 @@ function App() {
           <li><a href="#testimonials-section" onClick={() => setIsMenuOpen(false)}>Experts</a></li>
         </ul>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <div className="theme-toggle">
-            <button
-              className={`t-btn ${theme === 'blue' ? 'active' : ''}`}
-              onClick={() => toggleTheme('blue')}
-            >
-              Blue
-            </button>
-            <button
-              className={`t-btn ${theme === 'red' ? 'active' : ''}`}
-              onClick={() => toggleTheme('red')}
-            >
-              Red
-            </button>
-          </div>
           <a className="btn-primary animate-on-scroll" href="#contact-section">Book free class ↗</a>
           <button className="menu-toggle-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle navigation">
             <i className={`ti ${isMenuOpen ? 'ti-x' : 'ti-menu-2'}`}></i>

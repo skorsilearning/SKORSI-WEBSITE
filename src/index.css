@@ -31,27 +31,7 @@ h1, h2, h3, h4, h5, h6, .logo {
   color: var(--text-main);
 }
 
-/* Theme Blue: Light background with analogous blue accents */
-.theme-blue {
-  --ac: #2563EB;
-  --ac-grad: linear-gradient(135deg, #3B82F6, #1D4ED8);
-  --ac-light: rgba(37, 99, 235, 0.07);
-  --ac-border: rgba(37, 99, 235, 0.22);
-  --ac-glow: rgba(37, 99, 235, 0.04);
-  --bg: #FFFFFF;
-  --bg2: #F2F2F2;
-  --text-main: #1A1A1A;
-  --text-muted: #6B7280;
-  --text-white: #FFFFFF;
-  --border: rgba(0, 0, 0, 0.08);
-  --border-subtle: rgba(0, 0, 0, 0.04);
-  --green: #10B981;
-  background: var(--bg);
-  transition: background 0.4s;
-}
-
-/* Theme Red: Light background with reference orange accents */
-.theme-red {
+:root {
   --ac: #FF6B35;
   --ac-grad: linear-gradient(135deg, #FF7A45, #FF5E62);
   --ac-light: rgba(255, 107, 53, 0.07);
@@ -65,22 +45,7 @@ h1, h2, h3, h4, h5, h6, .logo {
   --border: rgba(0, 0, 0, 0.08);
   --border-subtle: rgba(0, 0, 0, 0.04);
   --green: #10B981;
-  background: var(--bg);
-  transition: background 0.4s;
 }
-
-.theme-toggle {
-  display: flex; gap: 8px; align-items: center;
-  background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 100px; padding: 4px;
-}
-.t-btn {
-  padding: 7px 18px; border-radius: 100px; font-size: 13px; font-weight: 600;
-  cursor: pointer; border: none;
-  transition: background 0.25s, color 0.25s;
-  color: var(--text-muted); background: transparent;
-}
-.t-btn.active { background: var(--ac); color: var(--text-white); }
 
 nav {
   display: flex; align-items: center; justify-content: space-between;
@@ -334,10 +299,6 @@ html { scroll-behavior: smooth; }
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   }
   
-  .theme-red nav ul {
-    background: #FFFFFF;
-  }
-
   nav ul.open {
     transform: translateY(0);
   }
@@ -345,14 +306,6 @@ html { scroll-behavior: smooth; }
   nav .btn-primary {
     padding: 8px 14px;
     font-size: 12px;
-  }
-  .theme-toggle {
-    gap: 4px;
-    padding: 3px;
-  }
-  .t-btn {
-    padding: 5px 12px;
-    font-size: 11px;
   }
 
   /* Requirement 2: Center-align Hero text & content on mobile */
