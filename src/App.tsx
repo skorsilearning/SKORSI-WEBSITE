@@ -238,7 +238,6 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated doubt support</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Recorded access (7 days)</li>
             </ul>
-            <div className="price-line">Starting at <strong>₹999</strong> / subject</div>
             <div style={{ marginTop: '16px' }}><a className="btn-primary animate-on-scroll" href="#contact-section">Explore batches ↗</a></div>
           </div>
           <div className="off-card">
@@ -252,7 +251,6 @@ function App() {
               <li><i className="ti ti-check" aria-hidden="true"></i> Targeted weak-topic focus</li>
               <li><i className="ti ti-check" aria-hidden="true"></i> Dedicated doubt support</li>
             </ul>
-            <div className="price-line">Starting at <strong>₹299</strong> / session</div>
             <div style={{ marginTop: '16px' }}><a className="btn-ghost animate-on-scroll" href="#contact-section">Book a session</a></div>
           </div>
         </div>
