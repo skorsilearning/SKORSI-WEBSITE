@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
 
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSd2hzSsWVIavbln5210BNTtUjoLtAYrKfg3J3b-43lf70R77A/viewform';
+const PDF_JD_URL = '/assets/Skorsi_College_Ambassador_JD.pdf';
+
 interface CareersProps {
   navigate?: (path: string) => void;
 }
@@ -7,7 +11,7 @@ interface CareersProps {
 const Careers: React.FC<CareersProps> = () => {
   useEffect(() => {
     document.title = 'Careers — College Ambassador Program | Skorsi';
-    
+
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
@@ -36,26 +40,22 @@ const Careers: React.FC<CareersProps> = () => {
           <div className="hero-ctas">
             <a
               className="btn-primary animate-on-scroll"
-              href="#apply"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              href={GOOGLE_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Apply Now ↗
             </a>
             <a
               className="btn-ghost animate-on-scroll"
-              href="#job-description"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('job-description')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              href={PDF_JD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              View Job Description
+              View Job Description (PDF) ↗
             </a>
           </div>
-          
+
           {/* Quick Specs Strip */}
           <div className="ambassador-specs">
             <div className="spec-item">
@@ -126,7 +126,7 @@ const Careers: React.FC<CareersProps> = () => {
       <div className="section" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="eyebrow">Role Details</div>
         <div className="sec-title">What you'll do &amp; what you'll get</div>
-        
+
         <div className="ambassador-grid">
           {/* Card 1: Key Responsibilities */}
           <div className="amb-card">
@@ -172,79 +172,38 @@ const Careers: React.FC<CareersProps> = () => {
         </div>
       </div>
 
-      {/* Full Job Description Section */}
-      <div className="section" id="job-description">
-        <div className="eyebrow">Official Document</div>
-        <div className="sec-title">Full Job Description</div>
-        <div className="sec-sub">
-          Review the complete role overview, compensation terms, and responsibilities in the official document below.
-        </div>
-
-        <div className="pdf-viewer-wrapper">
-          <div className="pdf-header-bar">
-            <div className="pdf-title">
-              <i className="ti ti-file-text" aria-hidden="true"></i> Skorsi_College_Ambassador_JD.pdf
-            </div>
+      {/* Clean Bottom Action Section */}
+      <div className="section" style={{ padding: '80px 36px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}>
+          <div className="eyebrow" style={{ display: 'inline-flex', marginBottom: '12px' }}>
+            Ready to join us?
+          </div>
+          <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '16px', color: 'var(--text-main)' }}>
+            Start your journey as a Skorsi Ambassador
+          </h2>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '32px', lineHeight: 1.6 }}>
+            Review the official job description or complete the application form directly in a new tab. We review applications on a rolling basis.
+          </p>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a
-              className="btn-primary"
-              href="/assets/Skorsi_College_Ambassador_JD.pdf"
-              download="Skorsi_College_Ambassador_JD.pdf"
+              className="btn-primary animate-on-scroll"
+              href={GOOGLE_FORM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontSize: '13px', padding: '8px 16px' }}
+              style={{ padding: '14px 32px', fontSize: '15px' }}
             >
-              <i className="ti ti-download" aria-hidden="true"></i> Download Job Description (PDF)
+              Apply Now ↗
+            </a>
+            <a
+              className="btn-ghost animate-on-scroll"
+              href={PDF_JD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ padding: '14px 28px', fontSize: '15px' }}
+            >
+              View Job Description (PDF) ↗
             </a>
           </div>
-
-          <div className="pdf-embed-container">
-            <object
-              data="/assets/Skorsi_College_Ambassador_JD.pdf"
-              type="application/pdf"
-              width="100%"
-              height="650px"
-              className="pdf-object"
-            >
-              <div className="pdf-fallback">
-                <i className="ti ti-file-type-pdf" style={{ fontSize: '48px', color: 'var(--ac)', marginBottom: '12px' }}></i>
-                <h4>Unable to display PDF inline on this device</h4>
-                <p>You can view or download the complete Job Description PDF using the link below:</p>
-                <a
-                  className="btn-primary"
-                  href="/assets/Skorsi_College_Ambassador_JD.pdf"
-                  target="_blank"
-                  download="Skorsi_College_Ambassador_JD.pdf"
-                  style={{ marginTop: '14px' }}
-                >
-                  <i className="ti ti-download" aria-hidden="true"></i> Download Job Description (PDF)
-                </a>
-              </div>
-            </object>
-          </div>
-        </div>
-      </div>
-
-      {/* Application Form Section */}
-      <div className="section" id="apply" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)' }}>
-        <div className="eyebrow">Join the team</div>
-        <div className="sec-title">Apply Now</div>
-        <div className="sec-sub">
-          Fill out the application form below to get started. Our team will review your application and contact you shortly.
-        </div>
-
-        <div className="form-iframe-wrapper">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSd2hzSsWVIavbln5210BNTtUjoLtAYrKfg3J3b-43lf70R77A/viewform?embedded=true"
-            width="100%"
-            height="1200"
-            frameBorder="0"
-            marginHeight={0}
-            marginWidth={0}
-            title="Skorsi College Ambassador Application Form"
-            className="google-form-iframe"
-          >
-            Loading application form...
-          </iframe>
         </div>
       </div>
     </div>

@@ -208,12 +208,10 @@ function App() {
           {currentPath === '/careers' ? (
             <a
               className="btn-primary animate-on-scroll"
-              href="#apply"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen(false);
-                document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              href="https://docs.google.com/forms/d/e/1FAIpQLSd2hzSsWVIavbln5210BNTtUjoLtAYrKfg3J3b-43lf70R77A/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
             >
               Apply Now ↗
             </a>
